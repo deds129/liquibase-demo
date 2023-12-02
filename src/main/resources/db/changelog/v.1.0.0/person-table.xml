@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+    <!-- создание таблицы person    -->
+    <changeSet id="create-table-person" author="deds129">
+        <createTable tableName="person">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="first_name" type="varchar(64)"/>
+        </createTable>
+    </changeSet>
+    
+    <!-- Добавление нового поля в таблицу person-->
+    <changeSet id="add-new-column-address" author="deds129">
+        <addColumn tableName="person">
+            <column name="address" type="varchar(300)"/>
+        </addColumn>
+    </changeSet>
+    
+    <!-- Добавление информации из csv файла -->
+    <changeSet id="add-default-data" author="deds129">
+        <!-- Условия для выполнения condition -->
+        <preConditions>
+            <tableIsEmpty tableName="person"/>
+        </preConditions>
+        <loadData tableName="person" file="data/person-default-data.csv"/>
+    </changeSet>
+
+</databaseChangeLog>

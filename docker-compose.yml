@@ -1,0 +1,27 @@
+version: '3'
+services:
+  db:
+    image: 'postgres:13'
+    container_name: 'db'
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      - 'POSTGRES_USER=postgres'
+      - 'POSTGRES_PASSWORD=postgres'
+      - 'POSTGRES_DB=liquibase_example'
+  app:
+    image: 'liquibase_example:latest'
+    container_name: app
+    build:
+      context: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    volumes:
+      - "/var/lib/postgresql/data"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/liquibase_example
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres

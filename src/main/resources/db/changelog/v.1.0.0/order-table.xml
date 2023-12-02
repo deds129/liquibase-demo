@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+    <!-- Добавление таблицы order, cязанной с person -->
+    <changeSet id="create-table-order" author="deds129">
+        <createTable tableName="order">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(64)"/>
+            <column name="author_id" type="int">
+                <constraints foreignKeyName="book_author_id_person_id" references="person(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!-- Создание представления (view) -->
+    <!-- changeSet id="create-view-order-person" author="deds129">
+        <createView viewName="person_and_order">
+            SELECT p.id as person_id,
+                   p.first_name as person_first_name,
+                   o.id as order_id,
+                   o.name as order_name
+            FROM person p
+                     LEFT JOIN order o on p.id = o.author_id
+        </createView>
+    </changeSet -->
+
+</databaseChangeLog>
